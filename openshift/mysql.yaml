@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-data
+  namespace: logistic-world
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests: { storage: 5Gi }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: logistic-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: mysql }
+  template:
+    metadata:
+      labels: { app: mysql }
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.4
+          ports: [{ containerPort: 3306 }]
+          env:
+            - name: MYSQL_DATABASE
+              value: logistic_world
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef: { name: logistic-world-db, key: username }
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: logistic-world-db, key: password }
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: logistic-world-db, key: root-password }
+          volumeMounts:
+            - { name: data, mountPath: /var/lib/mysql }
+      volumes:
+        - name: data
+          persistentVolumeClaim: { claimName: mysql-data }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: logistic-world
+spec:
+  selector: { app: mysql }
+  ports: [{ port: 3306, targetPort: 3306 }]

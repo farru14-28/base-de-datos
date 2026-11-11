@@ -17,3 +17,7 @@ En `backend/`: `mvn quarkus:dev` (API http://localhost:8080)
 En `frontend/`: `npm install` y `npm start` (http://localhost:4200)
 
 No subas contraseñas ni archivos `.env` a GitHub.
+
+
+## GitHub + Red Hat OpenShift
+Consulta [README-REDHAT-GITHUB.md](README-REDHAT-GITHUB.md) para despliegue, YAML, secrets y configuración CI/CD.

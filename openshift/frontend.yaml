@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logistic-frontend
+  namespace: logistic-world
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: logistic-frontend }
+  template:
+    metadata:
+      labels: { app: logistic-frontend }
+    spec:
+      containers:
+        - name: web
+          image: quay.io/CHANGE_ME/logistic-world-web:latest
+          ports: [{ containerPort: 8080 }]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logistic-frontend
+  namespace: logistic-world
+spec:
+  selector: { app: logistic-frontend }
+  ports: [{ port: 8080, targetPort: 8080 }]
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: logistic-world
+  namespace: logistic-world
+spec:
+  to: { kind: Service, name: logistic-frontend }
+  port: { targetPort: 8080 }
+  tls: { termination: edge, insecureEdgeTerminationPolicy: Redirect }

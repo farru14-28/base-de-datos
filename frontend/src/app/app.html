@@ -1,0 +1,164 @@
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">LW</div>
+      <div>
+        <h2>LOGISTIC WORLD</h2>
+        <span>GLOBAL TRANSPORT SYSTEM</span>
+      </div>
+    </div>
+
+    <p class="menu-title">MENÚ PRINCIPAL</p>
+
+    <nav>
+      @for (item of menuItems; track item.name) {
+        <button
+          class="menu-item"
+          [class.active]="activeModule === item.name"
+          (click)="selectModule(item.name)">
+          <span class="menu-icon">{{ item.icon }}</span>
+          {{ item.name }}
+        </button>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-dot"></div>
+      Sistema operativo
+      <span>v1.0</span>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <span class="breadcrumb">Logistic World /</span>
+        <strong>{{ activeModule }}</strong>
+      </div>
+
+      <div class="user">
+        <div class="notification">♧</div>
+        <div class="avatar">FA</div>
+        <div>
+          <strong>Administrador</strong>
+          <small>Panel de control</small>
+        </div>
+      </div>
+    </header>
+
+    <section class="content">
+
+      <div class="welcome">
+        <div>
+          <span class="eyebrow">CENTRO DE OPERACIONES</span>
+          <h1>{{ activeModule === 'Dashboard' ? 'Panel de control' : activeModule }}</h1>
+          <p>
+            Bienvenido a Logistic World
+            administra y supervisa tus operaciones logísticas desde un solo lugar
+          </p>
+        </div>
+        <div class="welcome-icon">🌐</div>
+      </div>
+
+      @if (activeModule === 'Dashboard') {
+
+        <div class="section-heading">
+          <h2>Resumen general</h2>
+          <span>Vista general de las operaciones</span>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Total de envíos</span>
+              <div class="stat-icon blue">📦</div>
+            </div>
+            <h2>1.284</h2>
+            <small>Registro de ejemplo</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>En tránsito</span>
+              <div class="stat-icon orange">🚚</div>
+            </div>
+            <h2>356</h2>
+            <small>Registro de ejemplo</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Entregados</span>
+              <div class="stat-icon green">✓</div>
+            </div>
+            <h2>842</h2>
+            <small>Registro de ejemplo</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Clientes</span>
+              <div class="stat-icon purple">👥</div>
+            </div>
+            <h2>96</h2>
+            <small>Registro de ejemplo</small>
+          </article>
+        </div>
+
+        <div class="section-heading">
+          <h2>Actividad reciente</h2>
+          <span>Datos demostrativos</span>
+        </div>
+
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>CÓDIGO</th>
+                <th>DESTINO</th>
+                <th>TRANSPORTISTA</th>
+                <th>ESTADO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#LW-00124</td>
+                <td>Bogotá → Medellín</td>
+                <td>Transportes Global</td>
+                <td><span class="status transit">En tránsito</span></td>
+              </tr>
+              <tr>
+                <td>#LW-00125</td>
+                <td>Cali → Bogotá</td>
+                <td>Logística Express</td>
+                <td><span class="status delivered">Entregado</span></td>
+              </tr>
+              <tr>
+                <td>#LW-00126</td>
+                <td>Barranquilla → Cali</td>
+                <td>Carga Internacional</td>
+                <td><span class="status pending">Pendiente</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      } @else {
+
+        <div class="module-card">
+          <div class="module-placeholder">🚧</div>
+          <h2>Módulo de {{ activeModule }}</h2>
+          <p>
+            Este espacio estará destinado a la gestión de {{ activeModule.toLowerCase() }}.
+          </p>
+          <span class="coming-soon">MÓDULO EN CONSTRUCCIÓN</span>
+        </div>
+
+      }
+
+    </section>
+  </main>
+</div>
